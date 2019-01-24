@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: fluentd
-        image: siangyeh8818/fluent:test
+        image: siangyeh8818/fluentd:1.0.1
         imagePullPolicy: Always
         envFrom:
         - configMapRef:
@@ -28,10 +28,15 @@ spec:
         volumeMounts:
         - mountPath: /fluentd/etc/
           name: pn-fluentd-certs-config
+        - mountPath: /etc/localtime
+          name: time
       nodeSelector:
         fluentd: "true"
       volumes:
       - name: pn-fluentd-certs-config
         hostPath:
           path: /opt/test/data
+      - name: time
+        hostPath:
+          path: /etc/localtime
 
