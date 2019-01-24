@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: fluentd
+  namespace: test
+spec:
+  replicas: 1
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: fluentd
+    spec:
+      containers:
+      - name: fluentd
+        image: siangyeh8818/fluent:test
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: host-info
+        ports:
+        - containerPort: 24224
+        volumeMounts:
+        - mountPath: /fluentd/etc/
+          name: pn-fluentd-certs-config
+      nodeSelector:
+        fluentd: "true"
+      volumes:
+      - name: pn-fluentd-certs-config
+        hostPath:
+          path: /opt/test/data
+

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: host-info
+  namespace: test
+data:
+  master01: "10.22.14.10"
+  master02: "10.22.15.10"
+  worker01: "10.22.14.11"
+  worker02: "10.22.15.11"
+  worker03: "10.22.14.12"
+  worker04: "10.22.15.12"
+  data01: "10.22.14.13"
+  data02: "10.22.15.13"

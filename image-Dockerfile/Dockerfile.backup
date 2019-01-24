@@ -1,0 +1,22 @@
+FROM fluent/fluentd:v1.3-onbuild
+
+USER root
+
+RUN apk add --update --virtual .build-deps \
+        sudo build-base ruby-dev \
+ && sudo gem install \
+        fluent-plugin-out-http \
+        fluent-plugin-record-modifier \
+        fluent-plugin-zabbix-agent \
+        fluent-plugin-rewrite-tag-filter \
+        fluent-plugin-route \
+        fluent-plugin-redis-store \
+        fluent-plugin-kafka \
+        fluent-plugin-elasticsearch \
+ && sudo gem sources --clear-all \
+ && apk del .build-deps \
+ && rm -rf /var/cache/apk/* \
+           /home/fluent/.gem/ruby/2.5.0/cache/*.gem
+
+# update in_zabbix_agent.rb
+COPY in_zabbix_agent.rb /usr/lib/ruby/gems/2.5.0/gems/fluent-plugin-zabbix-agent-0.2.0/lib/fluent/plugin/in_zabbix_agent.rb
